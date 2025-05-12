@@ -19,4 +19,4 @@ else()
     message(STATUS "Not building with mingw-w64")
 endif()
 
-add_executable(Test main.cpp io.cpp)
+add_executable(Test 7.3.cpp)

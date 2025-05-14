@@ -34,6 +34,12 @@
                     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
                 },
                 {
+                    "name": "Build & Run (focus for input)",
+                    "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake --build build && echo Success, Executing: && ./build/Test.exe\"",
+                    "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+                    "focus": true
+                },
+                {
                     "name": "Regenerate",
                     "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake -B build\"",
                 },

@@ -13,6 +13,10 @@
             "target": "terminus_exec",
             "cancel": "terminus_cancel_build",
             "working_dir": "$folder",
+            "view_settings":
+            {
+                "rulers": [],
+            },
             "variants":
             [
                 {

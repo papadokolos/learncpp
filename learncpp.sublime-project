@@ -3,7 +3,11 @@
     [
         {
             "path": ".",
-        }
+            "folder_exclude_patterns":
+            [
+                "build"
+            ]
+        },
     ],
 
     "build_systems":

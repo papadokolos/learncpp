@@ -1,4 +1,4 @@
-#include <iostream>
+#include <print>
 
 
 int main(int /*argc*/, char const */*argv*/[])

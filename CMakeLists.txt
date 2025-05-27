@@ -13,10 +13,14 @@ set(CLICOLOR_FORCE 1)
 # https://github.com/cpp-best-practices/cppbestpractices/blob/master/02-Use_the_Tools_Available.md#compilers
 add_compile_options("-Wall" "-Wextra" "-Wshadow" "-Wnon-virtual-dtor" "-pedantic" "-Wold-style-cast" "-Wcast-align" "-Wunused" "-Woverloaded-virtual" "-Wpedantic" "-Wconversion" "-Wsign-conversion" "-Wmisleading-indentation" "-Wnull-dereference" "-Wdouble-promotion" "-Wformat=2" "-Wimplicit-fallthrough" "-Weffc++")
 
+# Run with address sanitizer
+add_compile_options("-fsanitize=address")
+add_link_options("-fsanitize=address")
+
 if(MINGW)
     message(STATUS "Building with mingw-w64")
 else()
     message(STATUS "Not building with mingw-w64")
 endif()
 
-add_executable(Test 11.x.q4.cpp)
+add_executable(Test 13.10.q1.cpp CInTools.cpp)

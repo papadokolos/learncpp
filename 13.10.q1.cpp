@@ -1,6 +1,5 @@
 #include <print>
 #include <format> // For specializing print to custom type
-#include <iostream>
 #include <string_view>
 
 #include "CInTools.h"
@@ -15,6 +14,10 @@ struct AdvertisingRevenue
 
 // std::formatter specialization for my custom type
 // (instead of overloading operator<< of std::cout)
+// Based on:
+// - https://stackoverflow.com/questions/79096443/what-is-the-correct-way-to-implement-a-custom-stdformatter-in-c20
+// - https://stackoverflow.com/questions/75543234/how-to-forward-formatting-information-from-stdformat
+// - https://stackoverflow.com/questions/59909102/stdformat-of-user-defined-types
 template <>
 struct std::formatter<AdvertisingRevenue>
 {
@@ -23,71 +26,36 @@ struct std::formatter<AdvertisingRevenue>
         return ctx.begin();
     }
 
-    auto format(const AdvertisingRevenue& ar, std::format_context& ctx)
+    template<typename ParseContext>
+    auto format(AdvertisingRevenue ar, ParseContext& ctx) const
     {
-        const double revenue {ar.adsWatched
-            * ar.adsClickedUserPercentage
-            * ar.avgEarningPerAdClick};
+        constexpr std::string_view format {
+            "Watched ads: {}"
+            "\nUser click percentage: {}%"
+            "\nAverage earning per click: {}"
+            "\n-------------------------------"
+            "\nTotal revenue: {}"
+        };
 
-        return std::format_to(
-            ctx.out(), "{}", 5);
+        const double revenue {
+            ar.adsWatched
+            * (ar.adsClickedUserPercentage / 100) // percent to fraction
+            * ar.avgEarningPerAdClick };
 
-        // return std::format_to(
-        //     ctx.out(),
-        //     "Watched ads: {}"
-        //     ", User click percentage: {}"
-        //     ", Average earning per click: {}"
-        //     "\nTotal revenue: {}",
-        //     ar.adsWatched,
-        //     ar.adsClickedUserPercentage,
-        //     ar.avgEarningPerAdClick,
-        //     revenue);
+        ctx.advance_to(
+            std::format_to(
+                ctx.out(),
+                format,
+                ar.adsWatched,
+                ar.adsClickedUserPercentage,
+                ar.avgEarningPerAdClick,
+                revenue));
+
+        return ctx.out();
     }
 };
 
-struct Index {
-    unsigned int id_{ 0 };
-};
-
-template <>
-struct std::formatter<Index> {
-    // for debugging only
-    formatter() { std::cout << "formatter<Index>()\n"; }
-
-    constexpr auto parse(std::format_parse_context& ctx) {
-        return ctx.begin();
-    }
-
-    auto format(const Index& id, std::format_context& ctx) const {
-        return std::format_to(ctx.out(), "{}", id.id_);
-    }
-};
-
-
-template <typename T>
-T getInputFromUser(std::string_view message)
-{
-    while (true)
-    {
-        std::print("{}", message);
-        T value {};
-        std::cin >> value;
-
-        if (clearFailedExtraction())
-        {
-            continue;
-        }
-        if (hasUnextractedInput())
-        {
-            ignoreLine();
-            continue;
-        }
- 
-        return value;
-    }
-}
-
-AdvertisingRevenue getAdvertisingReventue()
+AdvertisingRevenue getAdvertisingRevenue()
 {
     constexpr std::string_view adsWatchedMessage {
         "How many ads were watched: "
@@ -109,13 +77,8 @@ AdvertisingRevenue getAdvertisingReventue()
 
 int main(int /*argc*/, char const */*argv*/[])
 {
-    // AdvertisingRevenue ar { getAdvertisingReventue() };
-    // std::print("{}", ar);
-
-    Index id{ 100 };
-    std::print("id {}\n", id);
-    std::print("id duplicated {0} {0}\n", id);
-
+    AdvertisingRevenue ar { getAdvertisingRevenue() };
+    std::println("Your advertising revenue:\n{}", ar);
 
     return 0;
 }

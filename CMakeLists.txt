@@ -14,9 +14,9 @@ set(CLICOLOR_FORCE 1)
 add_compile_options("-Wall" "-Wextra" "-Wshadow" "-Wnon-virtual-dtor" "-pedantic" "-Wold-style-cast" "-Wcast-align" "-Wunused" "-Woverloaded-virtual" "-Wpedantic" "-Wconversion" "-Wsign-conversion" "-Wmisleading-indentation" "-Wnull-dereference" "-Wdouble-promotion" "-Wformat=2" "-Wimplicit-fallthrough" "-Weffc++")
 add_compile_options("-Wno-braced-scalar-init") # Learncpp 13.8: overcome Clang bug
 
-# Run with address sanitizer
-add_compile_options("-fsanitize=address")
-add_link_options("-fsanitize=address")
+# # Run with address sanitizer
+# add_compile_options("-fsanitize=address")
+# add_link_options("-fsanitize=address")
 
 if(MINGW)
     message(STATUS "Building with mingw-w64")

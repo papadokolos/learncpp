@@ -29,10 +29,6 @@
                     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
                 },
                 {
-                    "name": "Run",
-                    "cmd": ["C:\\WINDOWS\\system32\\cmd.exe", "/c", "C:\\msys64\\msys2_shell.cmd", "-defterm", "-here", "-no-start", "-clang64", "-c", "touch hi\\ joe"]
-                },
-                {
                     "name": "Build & Run",
                     "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake --build build && echo Success, Executing: && ./build/Test.exe\"",
                     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",

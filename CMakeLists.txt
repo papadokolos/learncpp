@@ -24,4 +24,5 @@ else()
     message(STATUS "Not building with mingw-w64")
 endif()
 
-add_executable(Test 13.10.q1.cpp CInTools.cpp)
+message(STATUS "SUBLIME_CURRENT_FILE is set to: ${SUBLIME_CURRENT_FILE}")
+add_executable(Test ${SUBLIME_CURRENT_FILE} CInTools.cpp)

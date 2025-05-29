@@ -21,27 +21,31 @@
             {
                 "rulers": [],
             },
+            "env":
+            {
+                "SUBLIME_CURRENT_OPEN_FILE": "$file"
+            },
             "variants":
             [
                 {
                     "name": "Build",
-                    "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake --build build\"",
+                    "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake -DSUBLIME_CURRENT_FILE=$file_name -B build && cmake --build build\"",
                     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
                 },
                 {
                     "name": "Build & Run",
-                    "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake --build build && echo Success, Executing: && ./build/Test.exe\"",
+                    "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake -DSUBLIME_CURRENT_FILE=$file_name -B build && cmake --build build && echo Success, Executing: && ./build/Test.exe\"",
                     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
                 },
                 {
                     "name": "Build & Run (focus for input)",
-                    "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake --build build && echo Success, Executing: && ./build/Test.exe\"",
+                    "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake -DSUBLIME_CURRENT_FILE=$file_name -B build && cmake --build build && echo Success, Executing: && ./build/Test.exe\"",
                     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
                     "focus": true
                 },
                 {
                     "name": "Regenerate",
-                    "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake -B build\"",
+                    "shell_cmd": "C:\\msys64\\msys2_shell.cmd -defterm -here -no-start -clang64 -c \"cmake -DSUBLIME_CURRENT_FILE=$file_name -B build\"",
                 },
                 {
                     "name": "Clean",

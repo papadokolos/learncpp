@@ -12,7 +12,7 @@ struct Triad
 template <typename T>
 void print(const Triad<T>& triad)
 {
-    std::println("[{}, {}, {}]", triad.first, triad.second, triad.third);
+    std::print("[{}, {}, {}]", triad.first, triad.second, triad.third);
 }
 
 int main()

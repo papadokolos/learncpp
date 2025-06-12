@@ -44,6 +44,7 @@ namespace Input
     struct GetOptions
     {
         bool ignoreExtraneousInput { false };
+        bool removeExtraneousInput { true };
     };
 
     template <typename T>
@@ -67,10 +68,14 @@ namespace Input
             }
             if (hasUnextractedInput())
             {
-                ignoreLine();
                 if (!options.ignoreExtraneousInput)
                 {
+                    ignoreLine();
                     continue;
+                }
+                else if (options.removeExtraneousInput)
+                {
+                    ignoreLine();
                 }
             }
      

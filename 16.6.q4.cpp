@@ -1,5 +1,6 @@
 #include "CInTools.h"
 
+#include <format>
 #include <optional>
 #include <print>
 #include <type_traits>
@@ -7,17 +8,17 @@
 #include <cstddef>
 
 template <typename T>
-T get1to9FromCLI() requires std::is_arithmetic_v<T>
+T getNumberInRangeFromCLI(T min, T max) requires std::is_arithmetic_v<T>
 {
     while (true)
     {
         T num{ 
             Input::get<T>(
-                "Enter a number between 1 and 9: ",
+                std::format("Enter a number between {} and {}: ", min, max),
                 { .ignoreExtraneousInput { true } }
             )
         };
-        bool num_within_range{ (num >= 1) && (num <= 9) };
+        bool num_within_range{ (num >= min) && (num <= max) };
         if (num_within_range)
         {
             return num;
@@ -55,8 +56,8 @@ std::optional<std::size_t> findValueInArray(
 
 int main()
 {
-    int num{ get1to9FromCLI<int>() };
-    std::vector arr{ 4, 6, 7, 3, 8, 2, 1, 9 };
+    auto num{ getNumberInRangeFromCLI(1.0, 9.0) };
+    std::vector arr{ 4.4, 6.6, 7.7, 3.3, 8.8, 2.2, 1.1, 9.9 };
     printArray(arr);
 
     // Version 1:
@@ -70,20 +71,17 @@ int main()
         std::println("The number {} was not found", num);
     }
 
-    std::vector arr2{ 4.4, 6.6, 7.7, 3.3, 8.8, 2.2, 1.1, 9.9 };
-    double num2{ get1to9FromCLI<double>() };
-
     // Version 2: Using C++23 Monadic Operations
-    findValueInArray(arr2, num2).transform(
-        [num2](int index)
+    findValueInArray(arr, num).transform(
+        [num](int index)
         {
-            std::println("The number {} has index {}", num2, index);
+            std::println("The number {} has index {}", num, index);
             return index;
         }
     ).or_else(
-        [num2]()
+        [num]()
         {
-            std::println("The number {} was not found", num2);
+            std::println("The number {} was not found", num);
             return std::optional{0};
         }
     );

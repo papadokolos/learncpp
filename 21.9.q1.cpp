@@ -38,6 +38,13 @@ char& GradeMap::operator[](const std::string& name)
 
 int main(int /*argc*/, char const */*argv*/[])
 {
+    GradeMap grades{};
+
+    grades["Joe"] = 'A';
+    grades["Frank"] = 'B';
+
+    std::println("Joe has a grade of {}", grades["Joe"]);
+    std::println("Frank has a grade of {}", grades["Frank"]);
 
     return 0;
 }

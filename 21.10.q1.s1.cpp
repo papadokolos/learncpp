@@ -35,7 +35,7 @@ struct std::formatter<MyString>
     }
 
     template <typename ParseContext>
-    auto format(MyString string, ParseContext& ctx) const
+    auto format(const MyString& string, ParseContext& ctx) const
     {
         ctx.advance_to(
             std::format_to(

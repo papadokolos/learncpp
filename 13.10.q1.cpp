@@ -27,7 +27,7 @@ struct std::formatter<AdvertisingRevenue>
     }
 
     template<typename ParseContext>
-    auto format(AdvertisingRevenue ar, ParseContext& ctx) const
+    auto format(const AdvertisingRevenue& ar, ParseContext& ctx) const
     {
         constexpr std::string_view format {
             "Watched ads: {}"

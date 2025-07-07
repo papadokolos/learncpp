@@ -83,7 +83,7 @@ struct std::formatter<V2::Car>
     }
 
     template <typename ParseContext>
-    auto format(V2::Car car, ParseContext& ctx) const
+    auto format(const V2::Car& car, ParseContext& ctx) const
     {
         ctx.advance_to(
             std::format_to(

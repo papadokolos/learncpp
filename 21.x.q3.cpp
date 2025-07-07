@@ -2,7 +2,9 @@
 
 #include <algorithm>
 #include <cassert>
+#include <format>
 #include <print>
+#include <span>
 #include <utility>
 
 
@@ -10,6 +12,10 @@ class IntArray
 {
 public:
     IntArray() = delete;
+
+    /**
+     * Create array with positive length.
+     */
     IntArray(int length);
 
     // Rule of 5
@@ -19,7 +25,7 @@ public:
     IntArray& operator=(IntArray other);
     IntArray& operator=(IntArray&& other);
 
-    https://stackoverflow.com/a/69486322
+    // https://stackoverflow.com/a/69486322
     auto&& operator[](this auto&& self, int index);
 
     int length() const { return m_length; }
@@ -27,10 +33,12 @@ public:
     // https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
     friend void swap(IntArray& lhs, IntArray& rhs);
 
+    friend struct std::formatter<IntArray>;
+
 private:
     static std::size_t toAllocationSize(int length);
 
-    int* m_arr{ InvalidValue{} };
+    int* m_arr{ InvalidValue{} }; // smart pointers not yet introduced
     int m_length{ InvalidValue{} };
 };
 
@@ -58,8 +66,7 @@ IntArray::IntArray(const IntArray& other) : IntArray(other.length())
     std::ranges::copy_n(other.m_arr, other.m_length, m_arr);
 }
 
-IntArray::IntArray(IntArray&& other)
-    : m_arr{ nullptr }, m_length{ 0 }
+IntArray::IntArray(IntArray&& other) : m_arr{ nullptr }, m_length{ 0 }
 {
     swap(*this, other);
 }
@@ -91,6 +98,28 @@ auto&& IntArray::operator[](this auto&& self, int index)
     return std::forward<decltype(self)>(self).m_arr[index];
 }
 
+template <>
+struct std::formatter<IntArray>
+{
+    constexpr auto parse(std::format_parse_context& ctx)
+    {
+        return ctx.begin();
+    }
+
+    template <typename ParseContext>
+    auto format(const IntArray& arr, ParseContext& ctx) const
+    {
+        ctx.advance_to(
+            std::format_to(
+                ctx.out(),
+                "{}",
+                std::span(arr.m_arr, static_cast<std::size_t>(arr.m_length))
+            )
+        );
+
+        return ctx.out();
+    }
+};
 
 IntArray fillArray()
 {
@@ -105,11 +134,12 @@ IntArray fillArray()
     return a;
 }
 
+
 int main()
 {
     IntArray a{ fillArray() };
 
-    std::cout << a << '\n';
+    std::println("{}", a);
 
     auto& ref{ a }; // we're using this reference to avoid compiler self-assignment errors
     a = ref;
@@ -119,7 +149,7 @@ int main()
 
     a[4] = 7;
 
-    std::cout << b << '\n';
+    std::println("{}", b);
 
     return 0;
 }

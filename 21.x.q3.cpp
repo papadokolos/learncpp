@@ -16,7 +16,7 @@ public:
     /**
      * Create array with positive length.
      */
-    IntArray(int length);
+    explicit IntArray(int length);
 
     // Rule of 5
     IntArray(const IntArray& other);

@@ -46,8 +46,8 @@ void swap(IntArray& lhs, IntArray& rhs)
 {
     using std::swap;
 
-    std::swap(lhs.m_arr, rhs.m_arr);
-    std::swap(lhs.m_length, rhs.m_length);
+    swap(lhs.m_arr, rhs.m_arr);
+    swap(lhs.m_length, rhs.m_length);
 }
 
 std::size_t IntArray::toAllocationSize(int length)
